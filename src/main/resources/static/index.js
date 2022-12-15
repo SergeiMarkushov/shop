@@ -19,6 +19,19 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         });
     }
 
+    $scope.loadCart = function () {
+        $http.get(contextPath + '/cart').then(function (responce) {
+           $scope.cart = responce.data;
+        });
+    }
+
+    $scope.addToCart = function (productId) {
+        $http.get(contextPath + '/cart/add/' + productId).then(function (responce) {
+            $scope.loadCart();
+        });
+    }
+
 
     $scope.loadProducts();
+    $scope.loadCart()
 });

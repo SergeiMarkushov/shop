@@ -1,5 +1,16 @@
-create table winter_shop.products (id bigserial primary key, title varchar(255), price int);
-insert into winter_shop.products (title, price) values ('Milk', 90), ('Bread', 25), ('Cheese', 300);
+create table winter_shop.products
+(
+    id bigserial primary key,
+    title varchar(255),
+    price int,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
+insert into winter_shop.products
+    (title, price)
+values
+    ('Milk', 90), ('Bread', 25), ('Cheese', 300);
 
 create table winter_shop.users
 (
