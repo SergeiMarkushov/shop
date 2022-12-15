@@ -31,14 +31,11 @@ public class CartService {
     }
 
     public void clearCart() {
-        tempCart.getItems().clear();
+        tempCart.clearCart();
     }
 
     public void deleteFromCart(Long productId) {
-        Product product = productService.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException
-                        ("Не удается удалить продукт с id: " + productId + ". Продукт не найден."));
-        tempCart.delete(product);
+        tempCart.delete(productId);
     }
 
     public void changeQuantity(Long productId, Integer delta) {
