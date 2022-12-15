@@ -12,7 +12,7 @@ public class Cart {
     private List<CartItem> items;
     private int totalPrice;
 
-    public Cart () {
+    public Cart() {
         this.items = new ArrayList<>();
     }
 
@@ -29,8 +29,27 @@ public class Cart {
 
 
     public void add(Product product) { //TODO: 1:22 HOMEWORK
-        items.add( new CartItem(product.getId(), product.getTitle(), 1, product.getPrice(), product.getPrice()));
+        items.add(new CartItem(product.getId(),
+                product.getTitle(),
+                1,
+                product.getPrice(),
+                product.getPrice()));
         recalculate();
     }
 
+    public void delete(Product product) {
+        for (CartItem item : items) {
+            if (item.getProductId().equals(product.getId())) {
+                items.remove(item);
+            }
+        }
+    }
+
+    public void changeQuantity(Long productId, Integer delta) {
+        for (CartItem item : items) {
+            if (item.getProductId().equals(productId)) {
+                item.setQuantity(item.getQuantity() + delta);
+            }
+        }
+    }
 }
