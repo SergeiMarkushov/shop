@@ -24,6 +24,6 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//        orderService.createOrder(user);
+        orderService.createOrder(user);
     }
 }

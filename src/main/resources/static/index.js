@@ -98,14 +98,15 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         });
     }
 
-    $scope.createOrder = function (productId) {
+    $scope.createOrder = function (user) {
         $http({
             url: contextPath + '/orders/create_order',
             method: 'POST',
             params: {
-                productId: productId
+                user: user
             }
         }).then(function (response) {
+            alert("Заказ оформлен!")
             $scope.clearCart();
             $scope.loadCart();
         });
