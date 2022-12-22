@@ -2,8 +2,9 @@ package ru.gb.shop.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.shop.convertors.ProductConvertor;
 import ru.gb.shop.dto.ProductDto;
-import ru.gb.shop.entities.Product;
+import ru.gb.shop.entities.ProductEntity;
 import ru.gb.shop.exceptions.ResourceNotFoundException;
 import ru.gb.shop.services.ProductService;
 
@@ -16,32 +17,29 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductConvertor productConvertor;
 
     @GetMapping
     public List<ProductDto> findAllProduct() {
         return productService.findAll().stream()
-                .map(p -> new ProductDto(p.getId(),p.getTitle(),p.getPrice()))
-                .collect(Collectors.toList());
+                .map(productConvertor::entityToDto).collect(Collectors.toList());
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> findProductById(@PathVariable Long id) {
-//        Optional<Product> product = productService.findById(id);
-//        if (!product.isPresent()) {
-//            ResponseEntity<AppError> err = new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.value(), "Продукт не найден, id: " + id), HttpStatus.NOT_FOUND);
-//            return err;
-//        }
-//        return new ResponseEntity<>(product.get(), HttpStatus.OK);
-//    }
 
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable Long id) {
-        Product p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
-        return new ProductDto(p.getId(), p.getTitle(), p.getPrice());
+        ProductEntity p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+        return productConvertor.entityToDto(p);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         productService.deleteById(id);
+    }
+
+    @PostMapping
+    public ProductDto createNewProduct(@RequestBody ProductDto productDto) {
+        ProductEntity productEntity = productService.createNewProduct(productDto);
+        return productConvertor.entityToDto(productEntity);
     }
 }

@@ -2,15 +2,18 @@ create table winter_shop.products
 (
     id bigserial primary key,
     title varchar(255),
+    category_id bigint references categories(id),
     price int,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
 );
 
+insert into winter_shop.categories (title) values ('Food'), ('Others');
+
 insert into winter_shop.products
-    (title, price)
+    (title, price, category_id)
 values
-    ('Milk', 90), ('Bread', 25), ('Cheese', 300);
+    ('Milk', 90, 1), ('Bread', 25, 1), ('Cheese', 300, 1);
 
 create table winter_shop.users
 (
@@ -63,4 +66,13 @@ create table winter_shop.order_items
     price int not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
+);
+
+create table winter_shop.categories
+(
+    id bigserial primary key ,
+    title varchar(255) unique ,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+
 );

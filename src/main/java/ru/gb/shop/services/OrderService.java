@@ -32,7 +32,7 @@ public class OrderService {
         List<OrderItem> orderItems = cart.getItems().stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setProduct(productService.findById(cartItem.getProductId()).orElseThrow(() ->
+                    orderItem.setProductEntity(productService.findById(cartItem.getProductId()).orElseThrow(() ->
                             new ResourceNotFoundException("Продукт ID = " + cartItem.getProductId() + " не найден")));
                     orderItem.setOrder(order);
                     orderItem.setPrice(cartItem.getPrice());

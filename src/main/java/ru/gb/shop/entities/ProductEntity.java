@@ -1,6 +1,6 @@
 package ru.gb.shop.entities;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,31 +11,21 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+//@Table(name = "products", schema = "winter_shop")
+@Table(name = "products")
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "order_items")
-public class OrderItem {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private ProductEntity productEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    @Column(name = "quantity")
-    private int quantity;
-
-    @Column(name = "price_per_product")
-    private int pricePerProduct;
-
+    @Column(name = "title")
+    private String title;
     @Column(name = "price")
     private int price;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

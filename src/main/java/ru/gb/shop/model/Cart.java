@@ -1,7 +1,7 @@
 package ru.gb.shop.model;
 
 import lombok.Data;
-import ru.gb.shop.entities.Product;
+import ru.gb.shop.entities.ProductEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,15 +27,15 @@ public class Cart {
         }
     }
 
-    public void add(Product product) {
+    public void add(ProductEntity productEntity) {
         for (CartItem item : items) {
-            if (product.getId().equals(item.getProductId())) {
+            if (productEntity.getId().equals(item.getProductId())) {
                 item.changeQuantity(1);
                 recalculate();
                 return;
             }
         }
-        items.add(new CartItem(product.getId(), product.getTitle(), 1, product.getPrice(), product.getPrice()));
+        items.add(new CartItem(productEntity.getId(), productEntity.getTitle(), 1, productEntity.getPrice(), productEntity.getPrice()));
         recalculate();
     }
 
