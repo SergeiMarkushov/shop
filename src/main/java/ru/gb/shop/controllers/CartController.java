@@ -2,7 +2,7 @@ package ru.gb.shop.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.shop.dto.Cart;
+import ru.gb.shop.model.Cart;
 import ru.gb.shop.services.CartService;
 
 @RestController
