@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.shop.dto.ProductDto;
 import ru.gb.shop.entities.Category;
-import ru.gb.shop.entities.ProductEntity;
+import ru.gb.shop.entities.Product;
 import ru.gb.shop.exceptions.ResourceNotFoundException;
 import ru.gb.shop.repositories.ProductRepository;
 
@@ -18,11 +18,11 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public List<ProductEntity> findAll() {
+    public List<Product> findAll() {
         return productRepository.findAll();
     }
 
-    public Optional<ProductEntity> findById(Long id) {
+    public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
@@ -30,13 +30,13 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public ProductEntity createNewProduct(ProductDto productDto) {
-        ProductEntity productEntity = new ProductEntity();
-        productEntity.setPrice(productDto.getPrice());
-        productEntity.setTitle(productDto.getTitle());
+    public Product createNewProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setPrice(productDto.getPrice());
+        product.setTitle(productDto.getTitle());
         Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
-        productEntity.setCategory(category);
-        productRepository.save(productEntity);
-        return productEntity;
+        product.setCategory(category);
+        productRepository.save(product);
+        return product;
     }
 }

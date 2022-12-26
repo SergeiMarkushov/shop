@@ -25,7 +25,7 @@ public class Category {
     private String title;
 
     @OneToMany(mappedBy = "category")
-    private List<ProductEntity> productEntities;
+    private List<Product> productEntities;
 
     @CreationTimestamp
     @Column(name = "created_at")

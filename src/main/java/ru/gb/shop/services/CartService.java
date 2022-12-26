@@ -2,7 +2,7 @@ package ru.gb.shop.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.gb.shop.entities.ProductEntity;
+import ru.gb.shop.entities.Product;
 import ru.gb.shop.model.Cart;
 import ru.gb.shop.exceptions.ResourceNotFoundException;
 
@@ -24,10 +24,10 @@ public class CartService {
     }
 
     public void add(Long productId) {
-        ProductEntity productEntity = productService.findById(productId)
+        Product product = productService.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException
                         ("Не удается добавить продукт с id: " + productId + " в корзину. Продукт не найден."));
-        tempCart.add(productEntity);
+        tempCart.add(product);
     }
 
     public void clearCart() {

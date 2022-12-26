@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.shop.convertors.ProductConvertor;
 import ru.gb.shop.dto.ProductDto;
-import ru.gb.shop.entities.ProductEntity;
+import ru.gb.shop.entities.Product;
 import ru.gb.shop.exceptions.ResourceNotFoundException;
 import ru.gb.shop.services.ProductService;
 
@@ -28,7 +28,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable Long id) {
-        ProductEntity p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+        Product p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
         return productConvertor.entityToDto(p);
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
 
     @PostMapping
     public ProductDto createNewProduct(@RequestBody ProductDto productDto) {
-        ProductEntity productEntity = productService.createNewProduct(productDto);
-        return productConvertor.entityToDto(productEntity);
+        Product product = productService.createNewProduct(productDto);
+        return productConvertor.entityToDto(product);
     }
 }

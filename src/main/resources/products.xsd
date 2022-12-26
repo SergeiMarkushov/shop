@@ -11,12 +11,12 @@
     <xs:element name="getAllProductsResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="products" maxOccurs="unbounded" type="tns:productEntity"/>
+                <xs:element name="products" maxOccurs="unbounded" type="tns:product"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="productEntity">
+    <xs:complexType name="product">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
             <xs:element name="title" type="xs:string"/>

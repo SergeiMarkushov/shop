@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.gb.shop.dto.ProductDto;
 import ru.gb.shop.entities.Category;
-import ru.gb.shop.entities.ProductEntity;
+import ru.gb.shop.entities.Product;
 import ru.gb.shop.exceptions.ResourceNotFoundException;
 import ru.gb.shop.services.CategoryService;
 
@@ -14,12 +14,12 @@ public class ProductConvertor {
 
     private final CategoryService categoryService;
 
-    public ProductDto entityToDto(ProductEntity productEntity) {
-        return new ProductDto(productEntity.getId(), productEntity.getTitle(), productEntity.getPrice(), productEntity.getCategory().getTitle());
+    public ProductDto entityToDto(Product product) {
+        return new ProductDto(product.getId(), product.getTitle(), product.getPrice(), product.getCategory().getTitle());
     }
 
-    public ProductEntity dtoToEntity(ProductDto productDto) {
-        ProductEntity p = new ProductEntity();
+    public Product dtoToEntity(ProductDto productDto) {
+        Product p = new Product();
         p.setId(productDto.getId());
         p.setTitle(productDto.getTitle());
         p.setPrice(productDto.getPrice());
