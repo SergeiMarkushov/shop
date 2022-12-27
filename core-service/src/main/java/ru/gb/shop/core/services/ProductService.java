@@ -1,14 +1,17 @@
 package ru.gb.shop.core.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.gb.shop.api.ProductDto;
 import ru.gb.shop.api.ResourceNotFoundException;
 import ru.gb.shop.core.entities.Category;
 import ru.gb.shop.core.entities.Product;
 import ru.gb.shop.core.repositories.ProductRepository;
+import ru.gb.shop.core.specifications.ProductSpecifications;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,8 +21,28 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+//    public List<Product> findAll() {
+//        return productRepository.findAll();
+//    }
+
+    public Page<Product> find(Integer minCost, Integer maxCost, String titlePart, Integer page) {
+        Specification<Product> spec = Specification.where(null);
+        if (minCost != null) {
+            spec = spec.and(ProductSpecifications.costGreaterOrEqualsThan(minCost));
+        }
+        if (maxCost != null) {
+            spec = spec.and(ProductSpecifications.costLessOrEqualsThan(maxCost));
+        }
+        if (titlePart != null) {
+            spec = spec.and(ProductSpecifications.titleLike(titlePart));
+        }
+        return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
+    }
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
+    }
+    public void deleteByIdProduct(Long id) {
+        productRepository.deleteById(id);
     }
 
     public Optional<Product> findById(Long id) {

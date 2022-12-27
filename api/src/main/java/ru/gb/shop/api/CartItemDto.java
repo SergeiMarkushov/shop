@@ -4,8 +4,8 @@ public class CartItemDto {
     private Long productId;
     private String productTitle;
     private int quantity;
-    private int pricePerProduct;
-    private int price;
+    private double pricePerProduct;
+    private double price;
 
 
     public Long getProductId() {
@@ -32,23 +32,23 @@ public class CartItemDto {
         this.quantity = quantity;
     }
 
-    public int getPricePerProduct() {
+    public double getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(int pricePerProduct) {
+    public void setPricePerProduct(double pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public CartItemDto(Long productId, String productTitle, int quantity, int pricePerProduct, int price) {
+    public CartItemDto(Long productId, String productTitle, int quantity, double pricePerProduct, double price) {
         this.productId = productId;
         this.productTitle = productTitle;
         this.quantity = quantity;

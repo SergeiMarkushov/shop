@@ -1,4 +1,4 @@
-package ru.gb.shop.core.utils;
+package ru.gb.shop.auth.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,11 +15,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil {
-
-    //    @Value("${jwt.secret}")
+//    @Value("${jwt.secret}")
+//    private String secret;
     private final String secret = "EI&!%Ti34NeSmOtRi7666SUDA23232eto43SEcRET@#$%^&%$@Ponyal?uroD";
-    //    @Value("${jwt.lifetime}")
-    private final Integer jwtLifetime = 36000000;
+//    @Value("${jwt.lifetime}")
+//    private Integer jwtLifetime;
+    private Integer jwtLifetime = 36000000;
 
 
     public String generateToken(UserDetails userDetails) {

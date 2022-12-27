@@ -2,22 +2,31 @@ package ru.gb.shop.core.integrations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import ru.gb.shop.api.CartDto;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class CartServiceIntegration {
-    private final RestTemplate restTemplate;
+    private final WebClient cartServiceWebClient;
 
-    public Optional<CartDto> getCart() {
-        return Optional.ofNullable(restTemplate.getForObject("http://localhost:8190/shop-carts/api/v1/cart/", CartDto.class));
+
+    public CartDto getCurrentCart() {
+        return cartServiceWebClient.get()
+                .uri("/api/v1/cart")
+                .retrieve()
+                .bodyToMono(CartDto.class)
+                .block();
+
     }
 
     public void clear() {
-        restTemplate.getForObject("http://localhost:8190/shop-carts/api/v1/cart/clear", CartDto.class);
-    }
+         cartServiceWebClient.get()
+                .uri("/api/v1/cart/clear")
+                .retrieve()
+                .toBodilessEntity()
+                .block();
 
+    }
 }
+

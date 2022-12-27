@@ -1,4 +1,4 @@
-package ru.gb.shop.core.controllers;
+package ru.gb.shop.auth.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,21 +7,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import ru.gb.shop.api.AppError;
 import ru.gb.shop.api.JwtRequest;
 import ru.gb.shop.api.JwtResponse;
-import ru.gb.shop.api.StringResponse;
-import ru.gb.shop.core.services.UserService;
-import ru.gb.shop.core.utils.JwtTokenUtil;
-
-import java.security.Principal;
+import ru.gb.shop.auth.services.UserService;
+import ru.gb.shop.auth.utils.JwtTokenUtil;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
+
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/auth")
@@ -29,18 +29,10 @@ public class AuthController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//            return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
-
-    @GetMapping("/auth_check")
-    public StringResponse authCheck(Principal principal) {
-        return new StringResponse(principal.getName());
-    }
-
-
 }

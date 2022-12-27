@@ -5,13 +5,13 @@ import java.util.List;
 
 public class CartDto {
     private List<CartItemDto> items;
-    private int totalPrice;
+    private double totalPrice;
 
     public List<CartItemDto> getItems() {
         return items;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
@@ -19,11 +19,11 @@ public class CartDto {
         this.items = items;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public CartDto(List<CartItemDto> items, int totalPrice) {
+    public CartDto(List<CartItemDto> items, double totalPrice) {
         this.items = items;
         this.totalPrice = totalPrice;
     }

@@ -21,9 +21,8 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "username")
+    private String username;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private List<OrderItem> items;
@@ -35,7 +34,7 @@ public class Order {
     private String phone;
 
     @Column(name = "total_price")
-    private int totalPrice;
+    private double totalPrice;
 
     @CreationTimestamp
     @Column(name = "created_at")

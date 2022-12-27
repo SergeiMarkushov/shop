@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class Cart {
     private List<CartItem> items;
-    private int totalPrice;
+    private double totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
@@ -22,7 +22,7 @@ public class Cart {
     }
 
     private void recalculate() {
-        totalPrice = 0;
+        totalPrice = 0.0;
         for (CartItem item : items) {
             totalPrice += item.getPrice();
         }

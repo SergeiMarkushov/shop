@@ -1,4 +1,4 @@
-package ru.gb.shop.core.services;
+package ru.gb.shop.auth.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gb.shop.core.entities.Role;
-import ru.gb.shop.core.entities.User;
-import ru.gb.shop.core.repositories.UserRepository;
+import ru.gb.shop.auth.entities.Role;
+import ru.gb.shop.auth.entities.User;
+import ru.gb.shop.auth.repositories.UserRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -28,8 +28,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found",username)));
-        User user = findByUsername(username).get();
+        User user = findByUsername(username).orElseThrow(()-> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
@@ -37,3 +36,4 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }
+

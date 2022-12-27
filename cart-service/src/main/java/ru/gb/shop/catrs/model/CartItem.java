@@ -11,8 +11,8 @@ public class CartItem {
     private Long productId;
     private String productTitle;
     private int quantity;
-    private int pricePerProduct;
-    private int price;
+    private double pricePerProduct;
+    private double price;
 
 
     public void changeQuantity(int delta) {
