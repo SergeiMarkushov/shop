@@ -98,24 +98,12 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         });
     }
 
-    // $scope.createOrder = function (user) {
-    //     $http({
-    //         url: 'http://localhost:8190/shop-carts/api/v1/orders/create_order',
-    //         method: 'POST',
-    //         params: {
-    //             user: user
-    //         }
-    //     }).then(function (response) {
-    //         alert("Заказ оформлен!")
-    //         $scope.clearCart();
-    //         $scope.loadCart();
-    //     });
-    // }
 
     $scope.createOrder = function () {
-        $http.post('http://localhost:8190/shop-carts/api/v1/orders/create_order')
+        $http.post('http://localhost:8189/shop/api/v1/orders/create_order')
             .then(function (response) {
                 alert("Заказ оформлен")
+                $scope.loadCart();
             })
     }
 
