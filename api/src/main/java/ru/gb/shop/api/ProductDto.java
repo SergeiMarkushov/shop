@@ -3,7 +3,7 @@ package ru.gb.shop.api;
 public class ProductDto {
     private Long id;
     private String title;
-    private int price;
+    private double price;
     private String categoryTitle;
 
     public Long getId() {
@@ -22,7 +22,7 @@ public class ProductDto {
         this.title = title;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -38,7 +38,7 @@ public class ProductDto {
         this.categoryTitle = categoryTitle;
     }
 
-    public ProductDto(Long id, String title, int price, String categoryTitle) {
+    public ProductDto(Long id, String title, double price, String categoryTitle) {
         this.id = id;
         this.title = title;
         this.price = price;
