@@ -23,7 +23,7 @@ public class CartController {
         return cartConvertor.entityToDto(cartService.getCurrentCart());
     }
 
-    @GetMapping("/price_change")
+    @GetMapping("/quantity_change")
     public void changeQuantity(@RequestParam Long productId, @RequestParam Integer delta) {
         cartService.changeQuantity(productId, delta);
     }

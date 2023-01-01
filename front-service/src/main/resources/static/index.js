@@ -56,18 +56,29 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
 
     $scope.loadProducts = function (pageIndex = 1) {
         $http({
-            url: contextPath + '/products',
+            url: 'http://localhost:5555/core/api/v1/products',
             method: 'GET',
             params: {
                 title_part: $scope.filter ? $scope.filter.title_part : null,
                 max_cost: $scope.filter ? $scope.filter.max_cost : null,
-                min_cost: $scope.filter ? $scope.filter.min_cost : null
+                min_cost: $scope.filter ? $scope.filter.min_cost : null,
+                // p: pageIndex
             }
         }).then(function (response) {
             console.log(response.data);
-            $scope.ProductPage = response.data.content;
+            $scope.productsPage = response.data.content;
+
+            // $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
+
+    // $scope.generatePagesList = function (totalPages) {
+    //     out = [];
+    //     for (let i = 0; i < totalPages; i++) {
+    //         out.push(i + 1);
+    //     }
+    //     $scope.pagesList = out;
+    // }
 
     $scope.loadCart = function () {
         $http.get('http://localhost:5555/cart/api/v1/cart').then(function (responce) {
@@ -89,7 +100,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
 
     $scope.changeQuantity = function (productId, delta) {
         $http({
-            url: 'http://localhost:5555/cart/api/v1/cart/price_change',
+            url: 'http://localhost:5555/cart/api/v1/cart/quantity_change',
             method: 'GET',
             params: {
                 productId: productId,
@@ -98,7 +109,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         }).then(function (response) {
             $scope.loadCart();
         });
-    }
+    };
 
 
     $scope.clearCart = function () {

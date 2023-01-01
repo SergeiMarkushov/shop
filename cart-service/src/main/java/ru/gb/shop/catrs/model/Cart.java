@@ -4,6 +4,8 @@ import lombok.Data;
 import ru.gb.shop.api.ProductDto;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
 @Data
 public class Cart {
     private List<CartItem> items;
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
@@ -22,9 +24,9 @@ public class Cart {
     }
 
     private void recalculate() {
-        totalPrice = 0.0;
+        totalPrice = BigDecimal.ZERO;
         for (CartItem item : items) {
-            totalPrice += item.getPrice();
+            totalPrice = totalPrice.add(item.getPrice()).setScale(2, RoundingMode.HALF_UP);
         }
     }
 
@@ -40,8 +42,6 @@ public class Cart {
         recalculate();
     }
 
-
-
     public void delete(Long productId) {
         if (items.removeIf(item -> item.getProductId().equals(productId))){
             recalculate();
@@ -52,7 +52,7 @@ public class Cart {
         for (CartItem item : items) {
             if (item.getProductId().equals(productId)) {
                 if (item.getQuantity() == 0) {
-                    items.remove(item);
+                    delete(productId);
                     recalculate();
                 }
                 item.changeQuantity(delta);
@@ -63,6 +63,6 @@ public class Cart {
 
     public void clearCart() {
         items.clear();
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
     }
 }
