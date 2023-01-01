@@ -7,5 +7,4 @@ import ru.gb.shop.core.entities.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
-
 }
