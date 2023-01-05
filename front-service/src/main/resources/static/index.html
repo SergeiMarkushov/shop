@@ -33,7 +33,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">На главную</a>
                 </li>
-
                 <li class="nav-item" ng-show="!isUserLoggedIn()">
                     <form class="align-middle" ng-submit="tryToAuth()">
                         <div class="input-group input-group-sm" style="...">
@@ -52,8 +51,6 @@
                 <li class="nav-item" ng-show="isUserLoggedIn()" style="">
                     <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Выйти</button>
                 </li>
-
-            </ul>
             </ul>
         </div>
     </nav>
@@ -68,12 +65,12 @@
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input type="number" step="any" class="form-control" id="filterMinCost" placeholder="" ng-model="filter.min_cost">
+            <input type="number" class="form-control" id="filterMinCost" placeholder="" ng-model="filter.min_cost">
             <label for="filterMinCost">Минимальная цена</label>
         </div>
         <p></p>
         <div class="form-floating input-group-sm">
-            <input type="number" step="any"  class="form-control" id="filterMaxCost" placeholder="" ng-model="filter.max_cost">
+            <input type="number" class="form-control" id="filterMaxCost" placeholder="" ng-model="filter.max_cost">
             <label for="filterMaxCost">Максимальная цена</label>
         </div>
         <p></p>

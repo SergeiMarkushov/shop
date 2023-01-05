@@ -41,8 +41,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable Long id) {
-        Product p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
-        return productConvertor.entityToDto(p);
+        return productConvertor.entityToDto(
+                productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id)));
     }
 
     @DeleteMapping("/{id}")

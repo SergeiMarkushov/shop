@@ -61,24 +61,13 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
             params: {
                 title_part: $scope.filter ? $scope.filter.title_part : null,
                 max_cost: $scope.filter ? $scope.filter.max_cost : null,
-                min_cost: $scope.filter ? $scope.filter.min_cost : null,
-                // p: pageIndex
+                min_cost: $scope.filter ? $scope.filter.min_cost : null
             }
         }).then(function (response) {
             console.log(response.data);
             $scope.productsPage = response.data.content;
-
-            // $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
-
-    // $scope.generatePagesList = function (totalPages) {
-    //     out = [];
-    //     for (let i = 0; i < totalPages; i++) {
-    //         out.push(i + 1);
-    //     }
-    //     $scope.pagesList = out;
-    // }
 
     $scope.loadCart = function () {
         $http.get('http://localhost:5555/cart/api/v1/cart').then(function (responce) {
@@ -120,7 +109,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
 
 
     $scope.createOrder = function () {
-        $http.post('http://localhost:5555/core/create_order')
+        $http.post('http://localhost:5555/core/api/v1/orders/create_order')
             .then(function (response) {
                 alert("Заказ оформлен")
                 $scope.loadCart();
