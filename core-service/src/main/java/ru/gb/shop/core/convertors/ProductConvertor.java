@@ -24,7 +24,7 @@ public class ProductConvertor {
         p.setTitle(productDto.getTitle());
         p.setPrice(productDto.getPrice());
         Category c = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() ->
-                new ResourceNotFoundException("Категоряи не найдена"));
+                new ResourceNotFoundException("Категория не найдена"));
         p.setCategory(c);
         return p;
     }
