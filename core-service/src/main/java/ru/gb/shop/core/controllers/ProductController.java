@@ -17,11 +17,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductConvertor productConvertor;
 
-//    @GetMapping
-//    public List<ProductDto> findAllProduct() {
-//        return productService.findAll().stream()
-//                .map(productConvertor::entityToDto).collect(Collectors.toList());
-//    }
+
 
     @GetMapping
     public Page<ProductDto> getProducts(
