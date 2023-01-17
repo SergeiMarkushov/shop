@@ -28,21 +28,21 @@
             try {
                 let jwt = $localStorage.winterMarketUser.token;
                 let payload = JSON.parse(atob(jwt.split('.')[1]));
-                let currentTime = parseInt(new Date().getTime() / 100);
+                let currentTime = parseInt(new Date().getTime() / 1000);
                 if (currentTime > payload.exp) {
-                    console.log("Token is expired!");
+                    console.log("Token is expired!!!");
                     delete $localStorage.winterMarketUser;
                     $http.defaults.headers.common.Authorization = '';
                 }
             } catch (e) {
             }
+
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.winterMarketUser.token;
         }
     }
 })();
 
-angular.module('shop', ['ngStorage']).controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
-
+angular.module('shop').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
     $scope.tryToAuth = function () {
         $http.post('http://localhost:5555/auth/auth', $scope.user)
             .then(function successCallback(response) {
