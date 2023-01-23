@@ -3,7 +3,7 @@ create table winter_shop.products
     id bigserial primary key,
     title varchar(255),
     category_id bigint references categories(id),
-    price numeric not null ,
+    price numeric(8, 2) not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
 );
@@ -20,7 +20,7 @@ create table winter_shop.orders
 (
     id bigserial primary key,
     username varchar(255) not null,
-    total_price numeric not null ,
+    total_price numeric(8, 2) not null ,
     address  varchar(255),
     phone varchar(255),
     created_at timestamp default current_timestamp,
@@ -33,8 +33,8 @@ create table winter_shop.order_items
     product_id bigint not null references winter_shop.products(id),
     order_id bigint not null references winter_shop.orders(id),
     quantity int not null ,
-    price_per_product double precision not null ,
-    price numeric not null ,
+    price_per_product numeric(8, 2) not null ,
+    price numeric(8, 2) not null ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
 );

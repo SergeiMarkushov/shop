@@ -25,7 +25,7 @@ angular.module('shop').controller('storeController', function ($scope, $http, $l
 
 
     $scope.addToCart = function (productId) {
-        $http.get('http://localhost:5555/cart/api/v1/cart/add/' + productId).then(function (responce) {
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.winterMarketGuestCartId + '/add/' + productId).then(function (responce) {
         });
     }
 
