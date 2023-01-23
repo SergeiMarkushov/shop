@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-//@Table(name = "users", schema = "winter_shop")
+//@Table(name = "users", schema = "winter_users")
 @Table(name = "users")
 public class User {
     @Id
@@ -21,7 +21,6 @@ public class User {
 
     @Column(name = ("username"))
     private String username;
-
     @Column(name = ("password"))
     private String password;
 
@@ -37,6 +36,12 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = ("email"))
+    private String email;
+
+    @Column(name = ("phone"))
+    private String phone;
 
 
 

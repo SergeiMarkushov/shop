@@ -2,50 +2,60 @@ package ru.gb.shop.catrs.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import ru.gb.shop.api.ProductDto;
 import ru.gb.shop.catrs.integrations.ProductServiceIntegration;
 import ru.gb.shop.catrs.model.Cart;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
+    private final RedisTemplate<String, Object> redisTemplate;
     @Value("${cart-service.cart-prefix}")
     private String cartPrefix;
-    private Map<String, Cart> carts;
-
-    @PostConstruct
-    public void init() {
-        carts = new HashMap<>();
-    }
 
     public Cart getCurrentCart(String uuid) {
         String targetUuid = cartPrefix + uuid;
-        if (!carts.containsKey(targetUuid)) {
-            carts.put(targetUuid, new Cart());
+        if (!redisTemplate.hasKey(targetUuid)) {
+            redisTemplate.opsForValue().set(targetUuid, new Cart());
         }
-        return carts.get(targetUuid);
+        return (Cart)redisTemplate.opsForValue().get(targetUuid);
     }
 
     public void add(String uuid, Long productId) {
-        ProductDto product = productServiceIntegration.getProductById(productId);
-        getCurrentCart(uuid).add(product);
+        execute(uuid, cart -> cart.add(productServiceIntegration.getProductById(productId)));
     }
 
     public void clearCart(String uuid) {
-        getCurrentCart(uuid).clearCart();
+        execute(uuid, Cart::clearCart);
     }
 
     public void deleteFromCart(String uuid, Long productId) {
-        getCurrentCart(uuid).delete(productId);
+        execute(uuid, cart -> cart.delete(productId));
     }
 
     public void changeQuantity(String uuid, Long productId, Integer delta) {
-        getCurrentCart(uuid).changeQuantity(productId, delta);
+        execute(uuid, cart -> cart.changeQuantity(productId,delta));
+    }
+
+    private void execute(String uuid, Consumer<Cart> operation) {
+        Cart cart = getCurrentCart(uuid);
+        operation.accept(cart);
+        redisTemplate.opsForValue().set(cartPrefix + uuid, cart);
+    }
+
+    public void merge(String userUuid, String guestCartUuid) {
+        Cart guestCart = getCurrentCart(guestCartUuid);
+        Cart userCart = getCurrentCart(userUuid);
+        userCart.mergeCarts(guestCart);
+        updateCart(guestCartUuid,guestCart);
+        updateCart(userUuid,userCart);
+    }
+
+    public void updateCart(String uuid, Cart cart) {
+        redisTemplate.opsForValue().set(uuid,cart);
     }
 }
