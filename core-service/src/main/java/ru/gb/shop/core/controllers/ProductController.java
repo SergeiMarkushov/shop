@@ -3,6 +3,7 @@ package ru.gb.shop.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.shop.api.PageDto;
 import ru.gb.shop.api.ProductDto;
 import ru.gb.shop.api.ResourceNotFoundException;
 import ru.gb.shop.core.convertors.ProductConvertor;
@@ -20,7 +21,8 @@ public class ProductController {
 
 
     @GetMapping
-    public Page<ProductDto> getProducts(
+//    public Page<ProductDto> getProducts(
+    public PageDto<ProductDto> getProducts(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_cost", required = false) Integer minCost,
             @RequestParam(name = "max_cost", required = false) Integer maxCost,
@@ -29,9 +31,17 @@ public class ProductController {
         if (page < 1) {
             page = 1;
         }
-        return productService.find(minCost, maxCost, titlePart, page).map(
+//        return productService.find(minCost, maxCost, titlePart, page).map(
+//                productConvertor::entityToDto
+//        );
+        Page<ProductDto> jpaPage = productService.find(minCost, maxCost, titlePart, page).map(
                 productConvertor::entityToDto
         );
+        PageDto<ProductDto> out = new PageDto<>();
+        out.setPage(jpaPage.getNumber());
+        out.setItems(jpaPage.getContent());
+        out.setTotalPages(jpaPage.getTotalPages());
+        return out;
     }
 
 

@@ -85,6 +85,12 @@ angular.module('shop').controller('indexController', function ($rootScope, $scop
         $http.defaults.headers.common.Authorization = '';
     };
 
+    $rootScope.mergeCart = function () {
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.winterMarketGuestCartId + '/merge')
+            .then(function (response) {
+            });
+    };
+
     $rootScope.isUserLoggedIn = function () {
         if ($localStorage.winterMarketUser) {
             return true;

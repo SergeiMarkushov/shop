@@ -50,7 +50,10 @@ public class CartService {
     public void merge(String userUuid, String guestCartUuid) {
         Cart guestCart = getCurrentCart(guestCartUuid);
         Cart userCart = getCurrentCart(userUuid);
-        userCart.mergeCarts(guestCart);
+
+        guestCart.getItems().forEach(userCart::addItem);
+        guestCart.clearCart();
+
         updateCart(guestCartUuid,guestCart);
         updateCart(userUuid,userCart);
     }
