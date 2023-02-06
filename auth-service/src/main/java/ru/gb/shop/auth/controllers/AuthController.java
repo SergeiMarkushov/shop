@@ -27,7 +27,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
-//    @PostMapping("/auth")
+    //    @PostMapping("/auth")
 //    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
 //        try {
 //            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -39,16 +39,16 @@ public class AuthController {
 //        return ResponseEntity.ok(new JwtResponse(token));
 //    }
 //}
-@PostMapping("/auth")
-public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest request) {
-    log.info("Auth request: [{}, {}]", request.getUsername(), request.getPassword());
-    try {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-    } catch (BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    @PostMapping("/auth")
+    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest request) {
+        log.info("Auth request: [{}, {}]", request.getUsername(), request.getPassword());
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
+        String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
-    UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
-    String token = jwtTokenUtil.generateToken(userDetails);
-    return ResponseEntity.ok(new JwtResponse(token));
-}
 }
