@@ -3,11 +3,9 @@ package ru.gb.shop.catrs.model;
 import lombok.Data;
 import ru.gb.shop.api.ProductDto;
 
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -19,9 +17,6 @@ public class Cart {
         this.items = new ArrayList<>();
     }
 
-    public List<CartItem> getItems() {
-        return Collections.unmodifiableList(items);
-    }
 
     private void recalculate() {
         totalPrice = BigDecimal.ZERO;
@@ -64,5 +59,13 @@ public class Cart {
     public void clearCart() {
         items.clear();
         totalPrice = BigDecimal.ZERO;
+    }
+
+    public void mergeCarts(Cart guestCart) {
+        for (CartItem item : guestCart.getItems()) {
+            items.add(item);
+            guestCart.clearCart();
+            recalculate();
+        }
     }
 }

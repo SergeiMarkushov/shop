@@ -4,6 +4,8 @@ create table winter_users.users
     id bigserial primary key,
     username varchar(36) not null,
     password varchar(80) not null,
+    email varchar(255) ,
+    phone varchar(255) ,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
 

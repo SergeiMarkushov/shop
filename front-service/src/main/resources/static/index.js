@@ -18,6 +18,14 @@
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
             })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -72,12 +80,12 @@ angular.module('shop').controller('indexController', function ($rootScope, $scop
         $location.path('/');
     };
 
-    $scope.clearUser = function () {
+    $rootScope.clearUser = function () {
         delete $localStorage.winterMarketUser;
         $http.defaults.headers.common.Authorization = '';
     };
 
-    $scope.isUserLoggedIn = function () {
+    $rootScope.isUserLoggedIn = function () {
         if ($localStorage.winterMarketUser) {
             return true;
         } else {
