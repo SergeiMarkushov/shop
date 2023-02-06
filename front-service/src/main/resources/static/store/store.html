@@ -32,14 +32,33 @@
             <td>Действия</td>
         </tr>
         <tbody>
-        <tr ng-repeat="p in productsPage">
+<!--        <tr ng-repeat="p in productsPage">-->
+        <tr ng-repeat="p in productsPage.items">
             <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
                 <button type="button" class="btn btn-outline-success" ng-click="addToCart(p.id)">Добавить в корзину
                 </button>
+            </td>
         </tr>
         </tbody>
     </table>
+    <nav aria-label="Page navigation" ng-show="isThereIndex()">
+        <ul class="pagination">
+            <li class="page-item" ng-show="productsPage.page != 0">
+                <button class="page-link" ng-click="previousPage(productsPage.page, 0)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+            <li class="page-item" ng-repeat="pageIndex in pagesList">
+                <button class="page-link" ng-click="loadProducts(pageIndex)">{{pageIndex}}</button>
+            </li>
+            <li class="page-item" ng-show="productsPage.page != (indexNumber - 1)">
+                <button class="page-link" ng-click="nextPage(productsPage.page, 2)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
 </div>
