@@ -9,12 +9,12 @@ import ru.gb.shop.core.entities.OrderItem;
 @RequiredArgsConstructor
 public class OrderItemConvertor {
     public OrderItemDto orderItemToDto(OrderItem orderItem) {
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setOrderId(orderItemDto.getId());
-        orderItemDto.setPrice(orderItem.getPrice());
-        orderItemDto.setQuantity(orderItem.getQuantity());
-        orderItemDto.setPricePerProduct(orderItem.getPricePerProduct());
-        orderItemDto.setProductTitle(orderItem.getProduct().getTitle());
-        return orderItemDto;
+        return OrderItemDto.newBuilder()
+                .withId(orderItem.getId())
+                .withPrice(orderItem.getPrice())
+                .withQuantity(orderItem.getQuantity())
+                .withPricePerProduct(orderItem.getPricePerProduct())
+                .withProductTitle(orderItem.getProduct().getTitle())
+                .build();
     }
 }

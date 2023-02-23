@@ -7,27 +7,64 @@ public class CategoryDto {
     private String title;
     private List<ProductDto> products;
 
-    public Long getId() {
-        return id;
+    private CategoryDto(Builder builder) {
+        id = builder.id;
+        title = builder.title;
+        products = builder.products;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public static Builder newBuilder(CategoryDto copy) {
+        Builder builder = new Builder();
+        builder.id = copy.getId();
+        builder.title = copy.getTitle();
+        builder.products = copy.getProducts();
+        return builder;
+    }
+
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public List<ProductDto> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductDto> products) {
-        this.products = products;
+    public static final class Builder {
+        private Long id;
+        private String title;
+        private List<ProductDto> products;
+
+        private Builder() {
+        }
+
+
+
+        public Builder withId(Long val) {
+            id = val;
+            return this;
+        }
+
+        public Builder withTitle(String val) {
+            title = val;
+            return this;
+        }
+
+        public Builder withProducts(List<ProductDto> val) {
+            products = val;
+            return this;
+        }
+
+        public CategoryDto build() {
+            return new CategoryDto(this);
+        }
     }
 }
