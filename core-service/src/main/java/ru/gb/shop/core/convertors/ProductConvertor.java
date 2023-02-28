@@ -15,7 +15,11 @@ public class ProductConvertor {
     private final CategoryService categoryService;
 
     public ProductDto entityToDto(Product product) {
-        return new ProductDto(product.getId(), product.getTitle(), product.getPrice(), product.getCategory().getTitle());
+        return ProductDto.newBuilder()
+                .withId(product.getId())
+                .withPrice(product.getPrice())
+                .withCategoryTitle(product.getCategory().getTitle())
+                .build();
     }
 
     public Product dtoToEntity(ProductDto productDto) {
