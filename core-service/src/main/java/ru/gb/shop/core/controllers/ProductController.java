@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.gb.shop.api.AppError;
 import ru.gb.shop.api.PageDto;
 import ru.gb.shop.api.ProductDto;
-import ru.gb.shop.api.ResourceNotFoundException;
 import ru.gb.shop.core.convertors.ProductConvertor;
 import ru.gb.shop.core.entities.Product;
 import ru.gb.shop.core.services.ProductService;
@@ -73,8 +72,7 @@ public class ProductController {
     )
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable @Parameter(description = "Id продукта", required = true) Long id) {
-        return productConvertor.entityToDto(
-                productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id)));
+        return productConvertor.entityToDto(productService.findProductById(id));
     }
 
     @DeleteMapping("/{id}")
