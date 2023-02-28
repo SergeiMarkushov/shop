@@ -29,12 +29,10 @@ class ProductControllerTest {
     void findProductById() {
 
         Product newProduct = productService.createNewProduct(
-                ProductDto.newBuilder()
-                        .withId(8L)
-                        .withPrice(new BigDecimal("100.4"))
-                        .withTitle("Title")
-                        .withCategoryTitle("Food")
-                        .build());
+                new ProductDto(8L,
+                        "Title",
+                        new BigDecimal("100.4"),
+                        "Food"));
 
         productRepository.save(newProduct);
 

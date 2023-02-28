@@ -7,12 +7,12 @@ import ru.gb.shop.catrs.model.CartItem;
 @Component
 public class CartItemConvertor {
     public CartItemDto entityToDto (CartItem cartItem) {
-        return CartItemDto.newBuilder()
-                .withPrice(cartItem.getPrice())
-                .withPricePerProduct(cartItem.getPricePerProduct())
-                .withProductId(cartItem.getProductId())
-                .withProductTitle(cartItem.getProductTitle())
-                .withQuantity(cartItem.getQuantity())
-                .build();
+        CartItemDto cartItemDto = new CartItemDto();
+        cartItemDto.setPrice(cartItem.getPrice());
+        cartItemDto.setProductId(cartItem.getProductId());
+        cartItemDto.setQuantity(cartItem.getQuantity());
+        cartItemDto.setProductTitle(cartItem.getProductTitle());
+        cartItemDto.setPricePerProduct(cartItem.getPricePerProduct());
+        return cartItemDto;
     }
 }

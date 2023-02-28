@@ -26,12 +26,11 @@ class ProductServiceTest {
     @Test
     void createNewProduct() {
         Product product = productService.createNewProduct(
-                ProductDto.newBuilder()
-                        .withId(1000L)
-                        .withPrice(new BigDecimal("100.4"))
-                        .withTitle("Title")
-                        .withCategoryTitle("Food")
-                        .build());
+                new ProductDto(
+                        1000L,
+                        "Title",
+                        new BigDecimal("100.4"),
+                        "Food"));
 
         Assertions.assertNotNull(product);
         Assertions.assertNotNull(product.getId());

@@ -15,14 +15,14 @@ public class CategoryConvertor {
 
 
     public CategoryDto entityToDto(Category category) {
-        return CategoryDto.newBuilder()
-                .withId(category.getId())
-                .withTitle(category.getTitle())
-                .withProducts(category.getProductEntities()
-                        .stream()
-                        .map(productConvertor::entityToDto)
-                        .collect(Collectors.toList()))
-                .build();
+        CategoryDto c = new CategoryDto();
+        c.setId(category.getId());
+        c.setTitle(category.getTitle());
+        c.setProducts(category.getProductEntities()
+                .stream()
+                .map(productConvertor::entityToDto)
+                .collect(Collectors.toList()));
+        return c;
     }
 
 }
