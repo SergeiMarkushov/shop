@@ -1,6 +1,8 @@
 package ru.gb.shop.core.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,11 +17,13 @@ import ru.gb.shop.core.specifications.ProductSpecifications;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final IdentityMap identityMap = new IdentityMap();
 
 //    public List<Product> findAll() {
 //        return productRepository.findAll();
@@ -38,8 +42,25 @@ public class ProductService {
         }
         return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
     }
-    public Optional<Product> findProductById(Long id) {
-        return productRepository.findById(id);
+//    public Optional<Product> findProductById(Long id) {
+//        return productRepository.findById(id);
+//    }
+
+    public Product findProductById(Long id) {
+        Product product = this.identityMap.getProductMap(id);
+        if (product != null) {
+            log.info("Product found in the Map");
+            return product;
+        } else {
+            // Try to find product in the database
+            product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+            if (product != null) {
+                this.identityMap.addProductMap(product);
+                log.info("Product found in DB.");
+                return product;
+            }
+        }
+        return null;
     }
     public void deleteByIdProduct(Long id) {
         productRepository.deleteById(id);
