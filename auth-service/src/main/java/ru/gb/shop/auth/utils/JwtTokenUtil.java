@@ -3,6 +3,7 @@ package ru.gb.shop.auth.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -15,12 +16,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil {
-//    @Value("${jwt.secret}")
-//    private String secret;
-    private final String secret = "EI&!%Ti34NeSmOtRi7666SUDA23232eto43SEcRET@#$%^&%$@Ponyal?uroD";
-//    @Value("${jwt.lifetime}")
-//    private Integer jwtLifetime;
-    private Integer jwtLifetime = 36000000;
+    @Value("${jwt.secret}")
+    private String secret;
+//    private final String secret = "EI&!%Ti34NeSmOtRi7666SUDA23232eto43SEcRET@#$%^&%$@Ponyal?uroD";
+    @Value("${jwt.lifetime}")
+    private Integer jwtLifetime;
+//    private Integer jwtLifetime = 36000000;
 
 
     public String generateToken(UserDetails userDetails) {

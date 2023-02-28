@@ -47,18 +47,18 @@ public class CartService {
         redisTemplate.opsForValue().set(cartPrefix + uuid, cart);
     }
 
-    public void merge(String userUuid, String guestCartUuid) {
-        Cart guestCart = getCurrentCart(guestCartUuid);
-        Cart userCart = getCurrentCart(userUuid);
+    public void mergeCarts(String uuid, String username) {
+        Cart cartUuid = getCurrentCart(uuid);
+        Cart cartUsername = getCurrentCart(username);
 
-        guestCart.getItems().forEach(userCart::addItem);
-        guestCart.clearCart();
+        cartUuid.getItems().forEach(cartUsername::addItem);
+        cartUuid.clearCart();
 
-        updateCart(guestCartUuid,guestCart);
-        updateCart(userUuid,userCart);
+        updateCart(uuid, cartUuid);
+        updateCart(username, cartUsername);
     }
 
     public void updateCart(String uuid, Cart cart) {
-        redisTemplate.opsForValue().set(uuid,cart);
+        redisTemplate.opsForValue().set(cartPrefix + uuid, cart);
     }
 }

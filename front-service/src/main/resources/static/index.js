@@ -68,6 +68,8 @@ angular.module('shop').controller('indexController', function ($rootScope, $scop
                     $scope.user.username = null;
                     $scope.user.password = null;
 
+                    $rootScope.mergeCart();
+
                     $location.path('/');
                 }
             }, function errorCallback(responce) {

@@ -1,6 +1,5 @@
 angular.module('shop').controller('storeController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/core/';
-    const cartContextPath = 'http://localhost:5555/cart/';
+
 
     $scope.loadProducts = function (pageIndex = 1) {
         $http({
@@ -13,8 +12,6 @@ angular.module('shop').controller('storeController', function ($scope, $http, $l
                 min_cost: $scope.filter ? $scope.filter.min_cost : null
             }
         }).then(function (response) {
-            // console.log(response.data);
-            // $scope.productsPage = response.data.content;
 
             $scope.productsPage = response.data;
             $scope.indexNumber = $scope.productsPage.totalPages;
@@ -58,6 +55,15 @@ angular.module('shop').controller('storeController', function ($scope, $http, $l
 
     $scope.addToCart = function (productId) {
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.winterMarketGuestCartId + '/add/' + productId).then(function (responce) {
+        });
+    }
+
+
+    $scope.createProduct = function () {
+        $http.post('http://localhost:5555/core/api/v1/products', $scope.newProduct).then(function (response) {
+            alert("Добавлен продукт " + response.data.title);
+            console.log(response.data);
+            $scope.loadProducts();
         });
     }
 

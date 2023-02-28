@@ -38,15 +38,13 @@ public class Cart {
     }
 
     public void addItem(CartItem cartItem) {
-        for (CartItem item : items) {
-            if (cartItem.getProductId().equals(item.getProductId())) {
-                item.changeQuantity(1);
-                recalculate();
-                return;
-            }
-        }
-        items.add(new CartItem(cartItem.getProductId(), cartItem.getProductTitle(), 1, cartItem.getPricePerProduct(), cartItem.getPrice()));
-        recalculate();
+        System.err.println(cartItem.toString());
+        ProductDto productDto = new ProductDto();
+        productDto.setId(cartItem.getProductId());
+        productDto.setPrice(cartItem.getPrice());
+        productDto.setTitle(cartItem.getProductTitle());
+        add(productDto);
+        changeQuantity(productDto.getId(), cartItem.getQuantity() - 1);
     }
 
     public void delete(Long productId) {
@@ -58,12 +56,13 @@ public class Cart {
     public void changeQuantity(Long productId, Integer delta) {
         for (CartItem item : items) {
             if (item.getProductId().equals(productId)) {
+                item.changeQuantity(delta);
                 if (item.getQuantity() == 0) {
                     delete(productId);
-                    recalculate();
+                    return;
                 }
-                item.changeQuantity(delta);
                 recalculate();
+                return;
             }
         }
     }
@@ -71,13 +70,5 @@ public class Cart {
     public void clearCart() {
         items.clear();
         totalPrice = BigDecimal.ZERO;
-    }
-
-    public void mergeCarts(Cart guestCart) {
-        for (CartItem item : guestCart.getItems()) {
-            items.add(item);
-            guestCart.clearCart();
-            recalculate();
-        }
     }
 }

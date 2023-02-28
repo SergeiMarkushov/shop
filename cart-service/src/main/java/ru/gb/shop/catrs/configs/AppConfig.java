@@ -25,7 +25,7 @@ public class AppConfig {
 
 
     @Bean
-    public WebClient productServiceWebClient() {
+    public WebClient productServiceWebClient() { //webFlux
         TcpClient tcpClient = TcpClient
                 .create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, productServiceIntegrationProperties.getConnectTimeout())
