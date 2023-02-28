@@ -38,6 +38,15 @@ angular.module('shop').controller('cartController', function ($scope, $http, $lo
 
 
     $scope.createOrder = function () {
+        if ($scope.cart.totalPrice === 0) {
+            alert('Добавьте хотя бы один продукт!');
+            $location.path('/store');
+            return;
+        }
+        if (!$scope.isUserLoggedIn()) {
+            alert('Необходимо авторизоваться или войти');
+            $location.path('/registration');
+        }
         $http.post('http://localhost:5555/core/api/v1/orders/create_order')
             .then(function (response) {
                 alert("Заказ оформлен")
